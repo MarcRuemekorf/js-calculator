@@ -31,7 +31,7 @@ body {
     border-radius: 5px;
     text-align: right;
     font-size: 2rem;
-    min-height: calc(2rem + 20px);
+    min-height: calc(2rem + 24px);
 }
 
 #buttons {
