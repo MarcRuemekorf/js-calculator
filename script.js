@@ -17,11 +17,15 @@ const clear = () => {
 };
 
 const deleteNumber = () => {
-
+    currentOperand = currentOperand.toString().slice(0, -1);
+    updateDisplay();
 }
 
 const appendDot = () => {
-
+    if(currentOperand.includes('.')) return;
+    if(currentOperand === '') currentOperand = '0';
+    currentOperand += '.';
+    updateDisplay();
 }
 
 let currentOperand = '';
@@ -33,16 +37,15 @@ const compute = () => {
     const prev = parseFloat(previousOperand);
     const current = parseFloat(currentOperand);
     if(isNaN(prev) || isNaN(current)) return;
-
     if (operation === null) return;
 
-    computation = prev + operation + current;
+    computation = `${prev} ${operation} ${current}`
 
     console.log(computation)
 
-    currentOperand = computation;
+    previousOperand = computation;
+    currentOperand = eval(`${prev} ${operation} ${current}`);
     operation = null;
-    previousOperand = '';
     updateDisplay();
 }
 
@@ -71,15 +74,15 @@ numberButtons.forEach(button => {
 
 operationButtons.forEach(button => {
     button.addEventListener('click', () => {
-        console.log(button.innerText);
         chooseOperation(button.innerText);
         updateDisplay();
     });
 });
 
-clearButton.addEventListener('click', () => {
-    clear();
-});
+dotButton.addEventListener('click', () => appendDot());
+clearButton.addEventListener('click', () => clear());
+deleteButton.addEventListener('click', () => deleteNumber());
+equalsButton.addEventListener('click', () => compute());
 
 const updateDisplay = () => {
     document.getElementById('previous-operand').innerText = previousOperand + ' ' + (operation || '');
