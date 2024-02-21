@@ -41,8 +41,6 @@ const compute = () => {
 
     computation = `${prev} ${operation} ${current}`
 
-    console.log(computation)
-
     previousOperand = computation;
     currentOperand = eval(`${prev} ${operation} ${current}`);
     operation = null;
@@ -83,6 +81,17 @@ dotButton.addEventListener('click', () => appendDot());
 clearButton.addEventListener('click', () => clear());
 deleteButton.addEventListener('click', () => deleteNumber());
 equalsButton.addEventListener('click', () => compute());
+
+document.addEventListener('keydown', (event) => {
+    if(event.key >= 0 && event.key <= 9) appendNumber(event.key);
+    if (event.key === '.') appendDot();
+    if (event.key === '+' || event.key === '-' || event.key === '*' || event.key === '/') chooseOperation(event.key);
+    if (event.key === 'Enter' || event.key === '=') compute();
+    if (event.key === 'Backspace') deleteNumber();
+    if (event.key === 'Escape') clear();
+
+    updateDisplay();
+});
 
 const updateDisplay = () => {
     document.getElementById('previous-operand').innerText = previousOperand + ' ' + (operation || '');
